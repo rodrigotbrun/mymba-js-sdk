@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mymba JS SDK - Demo</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Muli:600,800&display=swap');
+    </style>
+
+</head>
+
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../dist/Mymba.sdk.js"></script>
+
+    <script type="text/javascript">
+        
+        Mymba.SDK.Initialize({
+            baseURL: "https://localhost:44380/api/",
+            debug: true
+        });
+
+        Mymba.Cidades.List().then(cidades => console.log(cidades)).catch(er => console.log('ERRO', er));
+
+    </script>
+</body>
+
+</html>

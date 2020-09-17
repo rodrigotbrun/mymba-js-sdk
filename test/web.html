@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>Test</title>    
+        
+    </head>
+    
+    
+    <body>
+        <a href="javascript:login();">Logar com AcheiCorridas.com</a>
+        
+        <div id="url"></div>
+        
+        
+        <script src="sdk-bundle.js"></script>
+        <script type="text/javascript">
+               //baseURL: "http://173.255.234.117:8003/api/",
+            var acheiCorridas = new AcheiCorridas({
+               baseURL: "https://api.acheicorridas.com.br/",
+               debug: true,
+               applicationId: '5555',
+            });
+            
+            document.getElementById('url').innerHTML = acheiCorridas.getAuthorizationUrl('5555');
+            
+            function login(){
+                acheiCorridas.browserSignin(function(user){
+                
+                    console.log('Login success');
+                    console.log(user);
+                    
+                    alert('Bem vindo '+ user.name);
+                    
+                }, function(error, isCancelled){
+                    
+                    console.log(error);
+                    
+                    if(isCancelled){
+                        console.log('> User cancelled the signin');
+                    }
+                    
+                });
+            }
+            
+        </script>
+    </body>
+</html>
