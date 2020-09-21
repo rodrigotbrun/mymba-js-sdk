@@ -5,12 +5,13 @@ export default class APICall {
     private httpsAgent?;
     private httpAgent?;
     private debug;
+    private axiosOptions;
     private requestOptions;
     multipartContent: boolean;
     xEventAlias?: any;
     xDeviceId?: any;
     xCheckoutSession?: any;
-    constructor(baseURL: string, accessToken: string, httpsAgent?: string, httpAgent?: string, debug?: boolean);
+    constructor(baseURL: string, accessToken: string, httpsAgent?: string, httpAgent?: string, debug?: boolean, axiosOptions?: any);
     setAccessToken(token: string): void;
     setDeviceId(id: string): void;
     setWorkingEvent(alias: string): void;

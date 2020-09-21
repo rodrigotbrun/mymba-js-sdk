@@ -10,7 +10,7 @@ var Users = new User_1["default"]();
 var Mymba = (function () {
     function Mymba(options) {
         this.options = options;
-        this.api = new APICall_1["default"](options.baseURL, options.accessToken, options.httpsAgent, options.httpAgent, options.debug);
+        this.api = new APICall_1["default"](options.baseURL, options.accessToken, options.httpsAgent, options.httpAgent, options.debug, options.axiosOptions);
     }
     Mymba.Initialize = function (options) {
         if (Mymba.instance === null || Mymba.instance === undefined)

@@ -20,7 +20,8 @@ export class Mymba {
             options.accessToken,
             options.httpsAgent,
             options.httpAgent,
-            options.debug
+            options.debug,
+            options.axiosOptions
         );
     }
 
@@ -59,5 +60,5 @@ export class Mymba {
 module.exports = {
     SDK: Mymba,
     Users,
-    Cidades: new CitiesAPI()
+    Cidades: new CitiesAPI(),
 };

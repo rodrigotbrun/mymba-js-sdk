@@ -1,5 +1,16 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Mymba = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -8,8 +19,9 @@ var axios_1 = __importDefault(require("axios"));
 var is_url_1 = __importDefault(require("is-url"));
 var proper_url_join_1 = __importDefault(require("proper-url-join"));
 var APICall = (function () {
-    function APICall(baseURL, accessToken, httpsAgent, httpAgent, debug) {
+    function APICall(baseURL, accessToken, httpsAgent, httpAgent, debug, axiosOptions) {
         if (debug === void 0) { debug = false; }
+        if (axiosOptions === void 0) { axiosOptions = {}; }
         this.requestOptions = {};
         this.multipartContent = false;
         if (!is_url_1["default"](baseURL))
@@ -19,6 +31,7 @@ var APICall = (function () {
         this.httpAgent = httpAgent;
         this.accessToken = accessToken;
         this.debug = debug;
+        this.axiosOptions = axiosOptions;
     }
     APICall.prototype.setAccessToken = function (token) {
         this.accessToken = token;
@@ -106,20 +119,14 @@ var APICall = (function () {
         }
         this.requestOptions = {};
         this.multipartContent = false;
-        return axios_1["default"](callURL, {
-            httpsAgent: this.httpsAgent,
-            httpAgent: this.httpAgent,
-            method: method,
-            data: data,
-            headers: headers
-        }).then(function (response) {
+        return axios_1["default"](callURL, __assign({ httpsAgent: this.httpsAgent, httpAgent: this.httpAgent, method: method, data: data, headers: headers }, this.axiosOptions)).then(function (response) {
             if (_this.debug) {
                 console.log('> RESPONSE ' + response.status + ' ' + response.statusText);
                 try {
-                    console.log(response.data.data.data);
+                    console.log(response.data.data);
                 }
                 catch (ee) {
-                    console.log(response.data.data);
+                    console.log(response.data);
                     console.log('FULL RESPONSE:' + response);
                 }
                 console.log(' ');
@@ -147,6 +154,9 @@ var APICall = (function () {
                     case 'UNABLE_TO_VERIFY_LEAF_SIGNATURE':
                         console.error('Solicitação bloqueada! Impossivel comunicar com o servidor sem uma conexão segura.');
                         throw new Error('Solicitação bloqueada! Impossivel comunicar com o servidor sem uma conexão segura. (' + e.code + ')');
+                    case 'ERR_CONNECTION_TIMED_OUT':
+                        console.error('Tempo de execução excedido (ERR_CONNECTION_TIMED_OUT).');
+                        throw new Error('Tempo de execução excedido (' + e.code + ').');
                 }
             }
             try {
@@ -172,6 +182,9 @@ var APICall = (function () {
                         console.error('A URL da api não esta acessível: ' + callURL);
                         throw new Error('Não foi possível estabelecer comunicação com o servidor');
                         break;
+                    case 'ERR_CONNECTION_TIMED_OUT':
+                        console.error('Tempo de execução excedido (ERR_CONNECTION_TIMED_OUT).');
+                        throw new Error('Tempo de execução excedido (' + e.code + ').');
                 }
                 var rStatus = 400;
                 if (e !== null && e.response !== null && e.response !== undefined && e.response.status !== null && e.response.status !== undefined) {
@@ -367,7 +380,7 @@ var Users = new User_1["default"]();
 var Mymba = (function () {
     function Mymba(options) {
         this.options = options;
-        this.api = new APICall_1["default"](options.baseURL, options.accessToken, options.httpsAgent, options.httpAgent, options.debug);
+        this.api = new APICall_1["default"](options.baseURL, options.accessToken, options.httpsAgent, options.httpAgent, options.debug, options.axiosOptions);
     }
     Mymba.Initialize = function (options) {
         if (Mymba.instance === null || Mymba.instance === undefined)

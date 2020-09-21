@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -7,8 +18,9 @@ var axios_1 = __importDefault(require("axios"));
 var is_url_1 = __importDefault(require("is-url"));
 var proper_url_join_1 = __importDefault(require("proper-url-join"));
 var APICall = (function () {
-    function APICall(baseURL, accessToken, httpsAgent, httpAgent, debug) {
+    function APICall(baseURL, accessToken, httpsAgent, httpAgent, debug, axiosOptions) {
         if (debug === void 0) { debug = false; }
+        if (axiosOptions === void 0) { axiosOptions = {}; }
         this.requestOptions = {};
         this.multipartContent = false;
         if (!is_url_1["default"](baseURL))
@@ -18,6 +30,7 @@ var APICall = (function () {
         this.httpAgent = httpAgent;
         this.accessToken = accessToken;
         this.debug = debug;
+        this.axiosOptions = axiosOptions;
     }
     APICall.prototype.setAccessToken = function (token) {
         this.accessToken = token;
@@ -105,13 +118,7 @@ var APICall = (function () {
         }
         this.requestOptions = {};
         this.multipartContent = false;
-        return axios_1["default"](callURL, {
-            httpsAgent: this.httpsAgent,
-            httpAgent: this.httpAgent,
-            method: method,
-            data: data,
-            headers: headers
-        }).then(function (response) {
+        return axios_1["default"](callURL, __assign({ httpsAgent: this.httpsAgent, httpAgent: this.httpAgent, method: method, data: data, headers: headers }, this.axiosOptions)).then(function (response) {
             if (_this.debug) {
                 console.log('> RESPONSE ' + response.status + ' ' + response.statusText);
                 try {
@@ -146,6 +153,9 @@ var APICall = (function () {
                     case 'UNABLE_TO_VERIFY_LEAF_SIGNATURE':
                         console.error('Solicitação bloqueada! Impossivel comunicar com o servidor sem uma conexão segura.');
                         throw new Error('Solicitação bloqueada! Impossivel comunicar com o servidor sem uma conexão segura. (' + e.code + ')');
+                    case 'ERR_CONNECTION_TIMED_OUT':
+                        console.error('Tempo de execução excedido (ERR_CONNECTION_TIMED_OUT).');
+                        throw new Error('Tempo de execução excedido (' + e.code + ').');
                 }
             }
             try {
@@ -171,6 +181,9 @@ var APICall = (function () {
                         console.error('A URL da api não esta acessível: ' + callURL);
                         throw new Error('Não foi possível estabelecer comunicação com o servidor');
                         break;
+                    case 'ERR_CONNECTION_TIMED_OUT':
+                        console.error('Tempo de execução excedido (ERR_CONNECTION_TIMED_OUT).');
+                        throw new Error('Tempo de execução excedido (' + e.code + ').');
                 }
                 var rStatus = 400;
                 if (e !== null && e.response !== null && e.response !== undefined && e.response.status !== null && e.response.status !== undefined) {

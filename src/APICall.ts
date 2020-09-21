@@ -9,6 +9,7 @@ export default class APICall {
     private httpsAgent?: string;
     private httpAgent?: string;
     private debug: boolean;
+    private axiosOptions: any;
 
     private requestOptions: any = {};
 
@@ -18,7 +19,7 @@ export default class APICall {
     public xDeviceId?: any;
     public xCheckoutSession?: any;
 
-    constructor(baseURL: string, accessToken: string, httpsAgent?: string, httpAgent?: string, debug: boolean = false) {
+    constructor(baseURL: string, accessToken: string, httpsAgent?: string, httpAgent?: string, debug: boolean = false, axiosOptions :any = {}) {
         if (!isUrl(baseURL)) throw new Error('URL Base inválida');
 
         this.baseURL = baseURL;
@@ -26,6 +27,7 @@ export default class APICall {
         this.httpAgent = httpAgent;
         this.accessToken = accessToken;
         this.debug = debug;
+        this.axiosOptions = axiosOptions;
     }
 
     public setAccessToken(token: string): void {
@@ -137,7 +139,8 @@ export default class APICall {
             httpAgent: this.httpAgent,
             method,
             data: data,
-            headers
+            headers,
+            ...this.axiosOptions
         }).then((response) => {
             if (this.debug) {
                 console.log('> RESPONSE ' + response.status + ' ' + response.statusText);
@@ -186,6 +189,9 @@ export default class APICall {
                     case 'UNABLE_TO_VERIFY_LEAF_SIGNATURE':
                         console.error('Solicitação bloqueada! Impossivel comunicar com o servidor sem uma conexão segura.');
                         throw new Error('Solicitação bloqueada! Impossivel comunicar com o servidor sem uma conexão segura. (' + e.code + ')');
+                    case 'ERR_CONNECTION_TIMED_OUT':
+                        console.error('Tempo de execução excedido (ERR_CONNECTION_TIMED_OUT).');
+                        throw new Error('Tempo de execução excedido (' + e.code + ').');
                 }
             }
 
@@ -211,6 +217,9 @@ export default class APICall {
                         console.error('A URL da api não esta acessível: ' + callURL);
                         throw new Error('Não foi possível estabelecer comunicação com o servidor');
                         break;
+                    case 'ERR_CONNECTION_TIMED_OUT':
+                        console.error('Tempo de execução excedido (ERR_CONNECTION_TIMED_OUT).');
+                        throw new Error('Tempo de execução excedido (' + e.code + ').');
                 }
 
                 let rStatus = 400;

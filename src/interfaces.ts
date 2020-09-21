@@ -9,6 +9,7 @@ export interface APIOptions {
     httpsAgent: string;
     httpAgent: string;
     debug: boolean;
+    axiosOptions: any;
 }
 
 export interface User {
