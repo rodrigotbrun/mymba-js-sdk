@@ -239,7 +239,7 @@ var APICall = (function () {
 }());
 exports["default"] = APICall;
 
-},{"axios":6,"is-url":33,"proper-url-join":35}],2:[function(require,module,exports){
+},{"axios":8,"is-url":35,"proper-url-join":37}],2:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -283,7 +283,101 @@ var CitiesAPI = (function (_super) {
 }(_BaseApi_1["default"]));
 exports["default"] = CitiesAPI;
 
-},{"../_BaseApi":4}],3:[function(require,module,exports){
+},{"../_BaseApi":6}],3:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+exports.__esModule = true;
+var _BaseApi_1 = __importDefault(require("../_BaseApi"));
+var ProductAttributeTypeAPI = (function (_super) {
+    __extends(ProductAttributeTypeAPI, _super);
+    function ProductAttributeTypeAPI(productId) {
+        var _this = _super.call(this, 'produtos-atributos') || this;
+        _this.productId = productId;
+        return _this;
+    }
+    ProductAttributeTypeAPI.prototype.List = function () {
+        return this.Api().send('GET', 'v1', this.route());
+    };
+    ProductAttributeTypeAPI.prototype.Get = function (id) {
+        return this.Api().send('GET', 'v1', this.route(id));
+    };
+    ProductAttributeTypeAPI.prototype.Create = function (data) {
+        return this.Api().send('POST', 'v1', this.route());
+    };
+    ProductAttributeTypeAPI.prototype.Update = function (data, id) {
+        return this.Api().send('PUT', 'v1', this.route(id));
+    };
+    ProductAttributeTypeAPI.prototype.Delete = function (id) {
+        return this.Api().send('DELETE', 'v1', this.route(id));
+    };
+    return ProductAttributeTypeAPI;
+}(_BaseApi_1["default"]));
+exports["default"] = ProductAttributeTypeAPI;
+
+},{"../_BaseApi":6}],4:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+exports.__esModule = true;
+var _BaseApi_1 = __importDefault(require("../_BaseApi"));
+var AttributesTypes_1 = __importDefault(require("./AttributesTypes"));
+var Products = (function (_super) {
+    __extends(Products, _super);
+    function Products() {
+        return _super.call(this, 'produtos') || this;
+    }
+    Products.prototype.List = function () {
+        return this.Api().send('GET', 'v1', this.route());
+    };
+    Products.prototype.Get = function (id) {
+        return this.Api().send('GET', 'v1', this.route(id));
+    };
+    Products.prototype.Create = function (data) {
+        return this.Api().send('POST', 'v1', this.route());
+    };
+    Products.prototype.Update = function (data, id) {
+        return this.Api().send('PUT', 'v1', this.route(id));
+    };
+    Products.prototype.Delete = function (id) {
+        return this.Api().send('DELETE', 'v1', this.route(id));
+    };
+    Products.prototype.AttributesTypes = function (productId) {
+        return new AttributesTypes_1["default"](productId);
+    };
+    return Products;
+}(_BaseApi_1["default"]));
+exports["default"] = Products;
+
+},{"../_BaseApi":6,"./AttributesTypes":3}],5:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -315,7 +409,7 @@ var UsersAPI = (function (_super) {
 }(_BaseApi_1["default"]));
 exports["default"] = UsersAPI;
 
-},{"../_BaseApi":4}],4:[function(require,module,exports){
+},{"../_BaseApi":6}],6:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 var index_1 = require("../index");
@@ -367,7 +461,7 @@ var BaseApi = (function () {
 }());
 exports["default"] = BaseApi;
 
-},{"../index":5}],5:[function(require,module,exports){
+},{"../index":7}],7:[function(require,module,exports){
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -376,6 +470,7 @@ exports.__esModule = true;
 var APICall_1 = __importDefault(require("./APICall"));
 var User_1 = __importDefault(require("./apis/User"));
 var City_1 = __importDefault(require("./apis/City"));
+var Products_1 = __importDefault(require("./apis/Products"));
 var Users = new User_1["default"]();
 var Mymba = (function () {
     function Mymba(options) {
@@ -412,12 +507,13 @@ exports.Mymba = Mymba;
 module.exports = {
     SDK: Mymba,
     Users: Users,
-    Cidades: new City_1["default"]()
+    Cities: new City_1["default"](),
+    Products: new Products_1["default"]()
 };
 
-},{"./APICall":1,"./apis/City":2,"./apis/User":3}],6:[function(require,module,exports){
+},{"./APICall":1,"./apis/City":2,"./apis/Products":4,"./apis/User":5}],8:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":8}],7:[function(require,module,exports){
+},{"./lib/axios":10}],9:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -599,7 +695,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/buildFullPath":14,"../core/createError":15,"./../core/settle":19,"./../helpers/buildURL":23,"./../helpers/cookies":25,"./../helpers/isURLSameOrigin":27,"./../helpers/parseHeaders":29,"./../utils":31}],8:[function(require,module,exports){
+},{"../core/buildFullPath":16,"../core/createError":17,"./../core/settle":21,"./../helpers/buildURL":25,"./../helpers/cookies":27,"./../helpers/isURLSameOrigin":29,"./../helpers/parseHeaders":31,"./../utils":33}],10:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -654,7 +750,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":9,"./cancel/CancelToken":10,"./cancel/isCancel":11,"./core/Axios":12,"./core/mergeConfig":18,"./defaults":21,"./helpers/bind":22,"./helpers/spread":30,"./utils":31}],9:[function(require,module,exports){
+},{"./cancel/Cancel":11,"./cancel/CancelToken":12,"./cancel/isCancel":13,"./core/Axios":14,"./core/mergeConfig":20,"./defaults":23,"./helpers/bind":24,"./helpers/spread":32,"./utils":33}],11:[function(require,module,exports){
 'use strict';
 
 /**
@@ -675,7 +771,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -734,14 +830,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":9}],11:[function(require,module,exports){
+},{"./Cancel":11}],13:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -837,7 +933,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"../helpers/buildURL":23,"./../utils":31,"./InterceptorManager":13,"./dispatchRequest":16,"./mergeConfig":18}],13:[function(require,module,exports){
+},{"../helpers/buildURL":25,"./../utils":33,"./InterceptorManager":15,"./dispatchRequest":18,"./mergeConfig":20}],15:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -891,7 +987,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":31}],14:[function(require,module,exports){
+},{"./../utils":33}],16:[function(require,module,exports){
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -913,7 +1009,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/combineURLs":24,"../helpers/isAbsoluteURL":26}],15:[function(require,module,exports){
+},{"../helpers/combineURLs":26,"../helpers/isAbsoluteURL":28}],17:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -933,7 +1029,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":17}],16:[function(require,module,exports){
+},{"./enhanceError":19}],18:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1014,7 +1110,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":11,"../defaults":21,"./../utils":31,"./transformData":20}],17:[function(require,module,exports){
+},{"../cancel/isCancel":13,"../defaults":23,"./../utils":33,"./transformData":22}],19:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1058,7 +1154,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -1133,7 +1229,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":31}],19:[function(require,module,exports){
+},{"../utils":33}],21:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -1160,7 +1256,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":15}],20:[function(require,module,exports){
+},{"./createError":17}],22:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1182,7 +1278,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":31}],21:[function(require,module,exports){
+},{"./../utils":33}],23:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1283,7 +1379,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this,require('_process'))
-},{"./adapters/http":7,"./adapters/xhr":7,"./helpers/normalizeHeaderName":28,"./utils":31,"_process":34}],22:[function(require,module,exports){
+},{"./adapters/http":9,"./adapters/xhr":9,"./helpers/normalizeHeaderName":30,"./utils":33,"_process":36}],24:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -1296,7 +1392,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1369,7 +1465,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":31}],24:[function(require,module,exports){
+},{"./../utils":33}],26:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1385,7 +1481,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1440,7 +1536,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":31}],26:[function(require,module,exports){
+},{"./../utils":33}],28:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1456,7 +1552,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1526,7 +1622,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":31}],28:[function(require,module,exports){
+},{"./../utils":33}],30:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -1540,7 +1636,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":31}],29:[function(require,module,exports){
+},{"../utils":33}],31:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1595,7 +1691,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":31}],30:[function(require,module,exports){
+},{"./../utils":33}],32:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1624,7 +1720,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -1970,7 +2066,7 @@ module.exports = {
   trim: trim
 };
 
-},{"./helpers/bind":22}],32:[function(require,module,exports){
+},{"./helpers/bind":24}],34:[function(require,module,exports){
 'use strict';
 var token = '%[a-f0-9]{2}';
 var singleMatcher = new RegExp(token, 'gi');
@@ -2066,7 +2162,7 @@ module.exports = function (encodedURI) {
 	}
 };
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 
 /**
  * Expose `isUrl`.
@@ -2115,7 +2211,7 @@ function isUrl(string){
   return false;
 }
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2301,7 +2397,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2389,7 +2485,7 @@ function urlJoin(...parts) {
 }
 
 module.exports = exports.default;
-},{"query-string":36}],36:[function(require,module,exports){
+},{"query-string":38}],38:[function(require,module,exports){
 'use strict';
 const strictUriEncode = require('strict-uri-encode');
 const decodeComponent = require('decode-uri-component');
@@ -2683,7 +2779,7 @@ exports.parseUrl = (input, options) => {
 	};
 };
 
-},{"decode-uri-component":32,"split-on-first":37,"strict-uri-encode":38}],37:[function(require,module,exports){
+},{"decode-uri-component":34,"split-on-first":39,"strict-uri-encode":40}],39:[function(require,module,exports){
 'use strict';
 
 module.exports = (string, separator) => {
@@ -2707,9 +2803,9 @@ module.exports = (string, separator) => {
 	];
 };
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 module.exports = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.charCodeAt(0).toString(16).toUpperCase()}`);
 
-},{}]},{},[5])(5)
+},{}]},{},[7])(7)
 });

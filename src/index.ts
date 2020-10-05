@@ -3,6 +3,7 @@ import { APIOptions } from './interfaces'
 
 import UsersAPI from './apis/User'
 import CitiesAPI from './apis/City'
+import ProductsAPI from './apis/Products'
 
 const Users = new UsersAPI();
 
@@ -60,5 +61,6 @@ export class Mymba {
 module.exports = {
     SDK: Mymba,
     Users,
-    Cidades: new CitiesAPI(),
+    Cities: new CitiesAPI(),
+    Products: new ProductsAPI(),
 };

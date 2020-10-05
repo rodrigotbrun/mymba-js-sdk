@@ -11,8 +11,28 @@ export interface APIOptions {
     axiosOptions: any;
 }
 export interface User {
-    created_at?: Date;
-    updated_at?: Date;
+    idUsuario: number;
+    idEmpresa: number;
+    nmUsuario: string;
+    dsLogin: string;
+    flSituacao: string;
+    dsSenha: string;
+    dsSituacao: string;
+    dtValidade: string;
+    idRole: number;
+    dsEmail: string;
+}
+export interface ProductAttributeType {
+    idTipo: number;
+    nmTipo: string;
+    flTipo: string;
+}
+export interface Product {
+    idProduto: number;
+}
+export interface Stock {
+    idControle: number;
+    qtEstoque: string;
 }
 export interface City {
 }

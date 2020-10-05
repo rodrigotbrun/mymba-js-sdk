@@ -1,0 +1,7 @@
+# Product
+
+```
+Product {
+    idProduto: number;
+}
+```

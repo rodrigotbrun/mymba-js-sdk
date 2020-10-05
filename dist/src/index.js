@@ -6,6 +6,7 @@ exports.__esModule = true;
 var APICall_1 = __importDefault(require("./APICall"));
 var User_1 = __importDefault(require("./apis/User"));
 var City_1 = __importDefault(require("./apis/City"));
+var Products_1 = __importDefault(require("./apis/Products"));
 var Users = new User_1["default"]();
 var Mymba = (function () {
     function Mymba(options) {
@@ -42,5 +43,6 @@ exports.Mymba = Mymba;
 module.exports = {
     SDK: Mymba,
     Users: Users,
-    Cidades: new City_1["default"]()
+    Cities: new City_1["default"](),
+    Products: new Products_1["default"]()
 };
